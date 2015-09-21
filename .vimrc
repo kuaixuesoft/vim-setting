@@ -1,7 +1,7 @@
 " by titan 
 
-" ¹¦ÄÜº¯Êı {{{
-function! GetSys()          " »ñÈ¡²Ù×÷ÏµÍ³
+" åŠŸèƒ½å‡½æ•° {{{
+function! GetSys()          " è·å–æ“ä½œç³»ç»Ÿ
     if has("win16") || has("win32") || has("win64") || has("win95")
         return "windows"
     elseif has("unix")
@@ -9,7 +9,7 @@ function! GetSys()          " »ñÈ¡²Ù×÷ÏµÍ³
     endif
 endfunction
 
-function! IsGui()           " ÊÇ·ñGUI
+function! IsGui()           " æ˜¯å¦GUI
     if has("gui_running")
         return "true"
     else
@@ -17,21 +17,21 @@ function! IsGui()           " ÊÇ·ñGUI
     endif
 endfunction
 
-function! PhpRun()          " Ö´ĞĞPHP
+function! PhpRun()          " æ‰§è¡ŒPHP
     setlocal makeprg=php\ -d\ html_errors=off
     setlocal shellpipe=>
     setlocal errorformat=%m\ in\ %f\ on\ line\ %l
     make %
 endfunction
 
-function! PhpSyntax()       " PHPÓï·¨¼ì²é
+function! PhpSyntax()       " PHPè¯­æ³•æ£€æŸ¥
     setlocal makeprg=php\ -l\ -n\ -d\ html_errors=off
     setlocal shellpipe=>
     setlocal errorformat=%m\ in\ %f\ on\ line\ %l
     make %
 endfunction
 
-function! UpdateCtags()                 " ¸üĞÂctags
+function! UpdateCtags()                 " æ›´æ–°ctags
     let curdir=getcwd()
     while !filereadable("./tags")
         cd ..
@@ -46,7 +46,7 @@ function! UpdateCtags()                 " ¸üĞÂctags
 endfunction
 " }}}
 
-" vundle²å¼ş {{{
+" vundleæ’ä»¶ {{{
 " git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 set nocompatible              " be iMproved
 filetype off                  " required!
@@ -60,8 +60,8 @@ else
     set rtp+=~/.vim/bundle/vundle/
     call vundle#rc()
 endif
-runtime pathogen/vim-pathogen/autoload/pathogen.vim
-execute pathogen#infect('pathogen/{}')
+"runtime pathogen/vim-pathogen/autoload/pathogen.vim
+"execute pathogen#infect('pathogen/{}')
 
 Bundle 'gmarik/vundle'
 Bundle 'L9'
@@ -87,7 +87,7 @@ Bundle 'hickop'
 
 Bundle 'Tabular'
 Bundle 'shawncplus/phpcomplete.vim'
-Bundle 'taglist.vim'
+"Bundle 'taglist.vim'
 Bundle 'The-NERD-tree'  
 Bundle 'majutsushi/tagbar'
 Bundle 'tpope/vim-fugitive'
@@ -98,7 +98,6 @@ Bundle "tomtom/tlib_vim"
 Bundle "garbas/vim-snipmate"
 Bundle "honza/vim-snippets"
 Bundle 'scrooloose/syntastic'
-Bundle "txt.vim"
 
 Bundle 'hdima/python-syntax'
 Bundle 'davidhalter/jedi-vim'
@@ -107,15 +106,15 @@ Bundle "Pydiction"
 
 
 "jedi 
-"syntastic ÅäÖÃ
+"syntastic é…ç½®
 
-"ÔöÇ¿×´Ì¬À¸ Lokaltog/vim-powerline
+"å¢å¼ºçŠ¶æ€æ  Lokaltog/vim-powerline
 let g:Powerline_symbols='fancy'
 let g:Powerline_colorscheme='solarized256'
 set t_Co=256
 set laststatus=2
 
-"À¨ºÅ¸ßÁÁ kien/rainbow_parentheses.vim
+"æ‹¬å·é«˜äº® kien/rainbow_parentheses.vim
 let g:rbpt_colorpairs = [
     \ [ 'brown' , 'RoyalBlue3'] ,
     \ [ 'Darkblue' , 'SeaGreen3'] ,
@@ -142,11 +141,11 @@ au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 nmap <F10 > :RainbowParenthesesToggle <CR >
 
-"¶ÔÆëÏß Yggdroot/indentLine vim7.3ÒÔÉÏ 
+"å¯¹é½çº¿ Yggdroot/indentLine vim7.3ä»¥ä¸Š 
 
-"¶àÎÄµµ±à¼­
-let g:miniBufExplMapWindowNavVim=1
-let g:miniBufExplMapWindowNavVim=1
+"å¤šæ–‡æ¡£ç¼–è¾‘
+let g:miniBufExplMapWindowNavVim=1 
+let g:miniBufExplMapWindowNavArrows=1
 let g:miniBufExplMapCTabSwitchBufs=1
 let g:miniBufExplModSelTarget=1
 
@@ -160,27 +159,32 @@ map <S-H> :MBEbp<CR>
 let g:winManagerWindowLayout='FileExplorer|TagList'
 nmap wm :WMToggle<cr>
 
-"tcomment
+" tcomment
 nnoremap // :TComment<CR>
 vnoremap // :TComment<CR>
 
-" PHP º¯Êı£¬Àà×¢ÊÍ PDV--phpDocumentor-for-Vim
+" PHP å‡½æ•°ï¼Œç±»æ³¨é‡Š PDV--phpDocumentor-for-Vim
 inoremap <C-c> <ESC>:call PhpDocSingle()<CR>i 
 nnoremap <C-c> :call PhpDocSingle()<CR> 
 vnoremap <C-c> :call PhpDocRange()<CR>
 
-" ¸ßÁÁ¶à¸öµ¥´Ê Mark--Karkat
+" é«˜äº®å¤šä¸ªå•è¯ Mark--Karkat
 
-"¿ìËÙÒÆ¶¯ vim-easymotion
+"å¿«é€Ÿç§»åŠ¨ vim-easymotion
 let g:EasyMotion_leader_key = 'f'
 
-"¶à¹â±ê²Ù×÷
+"å¤šå…‰æ ‡æ“ä½œ
 let g:multi_cursor_use_default_mapping=0
 
-"ÎÄ¼ş¶ÔÆë
+let g:multi_cursor_next_key='<C-m>'
+let g:multi_cursor_prev_key='<C-p>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
+
+"æ–‡ä»¶å¯¹é½
 map <leader>l :Align
 
-"´úÂë¶ÔÆë tabular
+"ä»£ç å¯¹é½ tabular
 nmap <leader>a= :Tabularize /=<CR>
 vmap <leader>a= :Tabularize /=<CR>
 nmap <leader>a: :Tabularize /:\zs<CR>
@@ -188,11 +192,11 @@ vmap <leader>a: :Tabularize /:\zs<CR>
 
 "tagbar
 let g:tagbar_autofocus=1
-nmap <F8> :TagbarToggle<CR>
+nmap <F4> :TagbarToggle<CR>
 
-" º¯Êı£¬±äÁ¿ÁĞ±í
+" å‡½æ•°ï¼Œå˜é‡åˆ—è¡¨
 let Tlist_Ctags_Cmd = 'ctags'
-let Tlist_Show_One_File = 1             " ÊÇ·ñ½ö½öÏÔÊ¾Ò»¸öÎÄ¼şµÄtag
+let Tlist_Show_One_File = 1             " æ˜¯å¦ä»…ä»…æ˜¾ç¤ºä¸€ä¸ªæ–‡ä»¶çš„tag
 let Tlist_Enable_Fold_Column = 0
 let Tlist_Compact_Format = 1
 "let Tlist_Auto_Open = 1
@@ -201,21 +205,21 @@ let Tlist_File_Fold_Auto_Close = 1
 let Tlist_Exit_OnlyWindow = 1
 let Tlist_Use_Right_Window = 1
 let Tlist_GainFocus_On_ToggleOpen = 1
-let Tlist_Exit_OnlyWindow = 1           " µ±TListÎª×îÒ»¸ö´°¿ÚÊ±¹Ø±Õ
-let Tlist_Close_On_Select = 1           " µ±µ¥»÷tagÎª×Ô¶¯¹Ø±Õ
-nnoremap <F4> :TlistToggle<CR>                                 " F4¿ªÆô/¹Ø±Õtagbar ĞèÒªÏÂÔØctags·ÅÈëPATHÄ¿Â¼
+let Tlist_Exit_OnlyWindow = 1           " å½“TListä¸ºæœ€ä¸€ä¸ªçª—å£æ—¶å…³é—­
+let Tlist_Close_On_Select = 1           " å½“å•å‡»tagä¸ºè‡ªåŠ¨å…³é—­
+"nnoremap <F4> :TlistToggle<CR>                                 " F4å¼€å¯/å…³é—­tagbar éœ€è¦ä¸‹è½½ctagsæ”¾å…¥PATHç›®å½•
 
-" ÎÄ¼şä¯ÀÀ
-nnoremap <F3> :NERDTreeToggle<CR>                                     " F3¿ªÆô/¹Ø±ÕNERDTree
+" æ–‡ä»¶æµè§ˆ
+nnoremap <F3> :NERDTreeToggle<CR>                                     " F3å¼€å¯/å…³é—­NERDTree
 
-" ×ÅÉ«
+" ç€è‰²
 let g:solarized_termtrans=1
 let g:solarized_termcolors=256
 let g:solarized_contrast="normal" 
 let g:solarized_visibility="normal"
 set background=dark
-"colorscheme solarized
-colorscheme hickop
+colorscheme solarized
+"colorscheme hickop
 
 
 "python
@@ -226,8 +230,8 @@ let g:pydiction_location = '~/.vim/bundle/Pydiction/complete-dict'
 filetype plugin indent on     " required!
 " }}}
 
-" »ù´¡ÅäÖÃ {{{
-autocmd! BufWritePost _vimrc exec 'source '.g:my_vimrc  " ×Ô¶¯¼ÓÔØÅäÖÃÎÄ¼ş
+" åŸºç¡€é…ç½® {{{
+autocmd! BufWritePost _vimrc exec 'source '.g:my_vimrc  " è‡ªåŠ¨åŠ è½½é…ç½®æ–‡ä»¶
 set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 set termencoding=utf-8
@@ -242,43 +246,43 @@ au FileType html setlocal dict+=~/.vim/dict/javascript.dict
 au FileType html setlocal dict+=~/.vim/dict/css.dict
 
 syntax enable
-syntax on              " ¸ßÁÁ
+syntax on              " é«˜äº®
 set hidden             "
-set smartcase          " ËÑË÷Ê±ÖÇÄÜ´óĞ¡Ğ´
-set nobomb             " ÎŞBOMÍ·
-set showcmd            " ÔÚ×´Ì¬À¸ÏÔÊ¾ÕıÔÚÊäÈëµÄÃüÁî
-set hlsearch           " ËÑË÷½á¹û¸ßÁÁ
+set smartcase          " æœç´¢æ—¶æ™ºèƒ½å¤§å°å†™
+set nobomb             " æ— BOMå¤´
+set showcmd            " åœ¨çŠ¶æ€æ æ˜¾ç¤ºæ­£åœ¨è¾“å…¥çš„å‘½ä»¤
+set hlsearch           " æœç´¢ç»“æœé«˜äº®
 set guifont=Monaco:h10:w7
 let mapleader=','
-autocmd InsertLeave * se nocul " ÓÃÇ³É«¸ßÁÁµ±Ç°ĞĞ
+autocmd InsertLeave * se nocul " ç”¨æµ…è‰²é«˜äº®å½“å‰è¡Œ
 autocmd InsertEnter * se cul
-set tabstop=4                   " ÖÆ±í·ûÎª4
-set softtabstop=4               " Í³Ò»Ëõ½øÎª4
+set tabstop=4                   " åˆ¶è¡¨ç¬¦ä¸º4
+set softtabstop=4               " ç»Ÿä¸€ç¼©è¿›ä¸º4
 set shiftwidth=4
-set clipboard+=unnamed      " ¹²Ïí¼ôÇĞ°å 
-set smartindent             " ¼Ì³ĞÇ°Ò»ĞĞµÄËõ½ø·½Ê½
-set cindent                      " Ê¹ÓÃCÑùÊ½µÄËõ½ø
+set clipboard+=unnamed      " å…±äº«å‰ªåˆ‡æ¿ 
+set smartindent             " ç»§æ‰¿å‰ä¸€è¡Œçš„ç¼©è¿›æ–¹å¼
+set cindent                      " ä½¿ç”¨Cæ ·å¼çš„ç¼©è¿›
 set cinoptions=:s,ps,ts,cs
 set cinwords=if,else,while,do,for,switch,case
 set helplang=cn
-set expandtab                   " Ê¹ÓÃ¿Õ¸ñÌæ»»ÖÆ±í·û
-set scrolloff=3                 " ¹â±êÒÆ¶¯µ½bufferµÄ¶¥²¿ºÍµ×²¿Ê±±£³Ö3ĞĞ¾àÀë
-set number                      " ĞĞºÅ
-set modeline                    " ÆôÓÃModeline,Ïê¼ûhttp://vim.wikia.com/wiki/Modeline_magic
-set nowrap                      " ÏÔÊ¾²»»»ĞĞ
-set textwidth=0               " ÊäÈëÄ£Ê½ÏÂÃ¿
-set backspace=2                 " ÉèÖÃ»Ø¸ñ¼üÕı³£´¦Àí
+set expandtab                   " ä½¿ç”¨ç©ºæ ¼æ›¿æ¢åˆ¶è¡¨ç¬¦
+set scrolloff=3                 " å…‰æ ‡ç§»åŠ¨åˆ°bufferçš„é¡¶éƒ¨å’Œåº•éƒ¨æ—¶ä¿æŒ3è¡Œè·ç¦»
+set number                      " è¡Œå·
+set modeline                    " å¯ç”¨Modeline,è¯¦è§http://vim.wikia.com/wiki/Modeline_magic
+set nowrap                      " æ˜¾ç¤ºä¸æ¢è¡Œ
+set textwidth=0               " è¾“å…¥æ¨¡å¼ä¸‹æ¯
+set backspace=2                 " è®¾ç½®å›æ ¼é”®æ­£å¸¸å¤„ç†
 
 set wildmode=longest,list " At command line, complete longest common string, then list alternatives.
 
-"set cursorcolumn  " Highlight the current column
+" set cursorcolumn  " Highlight the current column
 set cursorline    " Highlight the current line
 
-"set foldenable                          " ¿ªÆô´úÂëÕÛµş
-"set foldmethod=marker                   " ÕÛµş·½Ê½
+"set foldenable                          " å¼€å¯ä»£ç æŠ˜å 
+"set foldmethod=marker                   " æŠ˜å æ–¹å¼
 " set foldlevel=100                                   " Don't autofold anything (but I can still fold manually)
 " set foldopen=block,hor,mark,percent,quickfix,tag    " what movements open folds
-set viminfo='10,\"100,:20,%,n~/.viminfo                 " »Ö¸´ÉÏ´ÎÎÄ¼ş´ò¿ªÎ»ÖÃ
+set viminfo='10,\"100,:20,%,n~/.viminfo                 " æ¢å¤ä¸Šæ¬¡æ–‡ä»¶æ‰“å¼€ä½ç½®
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm'\"")|else|exe "norm $"|endif|endif
 
 set autochdir
@@ -288,7 +292,7 @@ set fo+=o " Automatically insert the current comment leader after hitting 'o' or
 set fo-=r " Do not automatically insert a comment leader after an enter
 set fo-=t " Do no auto-wrap text using textwidth (does not apply to comments)
 
-" Omnifunc ×Ô¶¯Íê³ÉÌáÊ¾
+" Omnifunc è‡ªåŠ¨å®Œæˆæç¤º
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
@@ -302,44 +306,44 @@ au FileType python set ft=python.django
 au FileType html set ft=htmldjango.html
 " }}}
 
-" ¿ì½İ¼üÓ³Éä {{{
+" å¿«æ·é”®æ˜ å°„ {{{
 
 :imap <C-S-J> <Plug>snipMateNextOrTrigger
 :smap <C-S-J> <Plug>snipMateNextOrTrigger
 
-nnoremap <C-h> <C-w>h                                       " ´°¿Ú·Ö¸îÊ±,¿ìËÙÇĞ»»
+nnoremap <C-h> <C-w>h                                       " çª—å£åˆ†å‰²æ—¶,å¿«é€Ÿåˆ‡æ¢
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>       " F2¿ªÆô/¹Ø±ÕĞĞºÅÏÔÊ¾
-nnoremap <silent> <leader>cl :nohlsearch<CR>                " ¿ìËÙÇå³ı¸ß¶ÈËÑË÷
+nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>       " F2å¼€å¯/å…³é—­è¡Œå·æ˜¾ç¤º
+nnoremap <silent> <leader>cl :nohlsearch<CR>                " å¿«é€Ÿæ¸…é™¤é«˜åº¦æœç´¢
 
 " php
 autocmd FileType php
             \ map <F5> :!php -f %<CR>|
             \ map <F6> :call PhpSyntax()<CR>
 
-nmap <C-F5> :call UpdateCtags()<CR>                         " ¸üĞÂctags
+nmap <C-F5> :call UpdateCtags()<CR>                         " æ›´æ–°ctags
 
-vmap <C-c> "+y                                              " Ñ¡ÖĞ×´Ì¬ÏÂCtrl+c ¸´ÖÆ
+vmap <C-c> "+y                                              " é€‰ä¸­çŠ¶æ€ä¸‹Ctrl+c å¤åˆ¶
 
 nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
 
 " }}}
 
-"Æ½Ì¨Ïà¹ØÅäÖÃ {{{
+"å¹³å°ç›¸å…³é…ç½® {{{
 " GUI {{{
 if IsGui() == "true"
-    set guioptions-=T                                       " Òş²Ø¹¤¾ßÀ¸
-    set guioptions-=m                                       " Òş²Ø²Ëµ¥À¸
-    set guioptions-=L                                       " Òş²Ø×ó²à¹ö¶¯Ìõ
-    set guioptions-=r                                       " Òş²ØÓÒ²à¹ö¶¯Ìõ
-    set guioptions-=b                                       " Òş²Øµ×²¿¹ö¶¯Ìõ
-    set showtabline=0                                       " Òş²ØTabÀ¸
-    " set background=dark                                     " ÎªÉîÉ«±³¾°µ÷ÕûÅäÉ«
+    set guioptions-=T                                       " éšè—å·¥å…·æ 
+    set guioptions-=m                                       " éšè—èœå•æ 
+    set guioptions-=L                                       " éšè—å·¦ä¾§æ»šåŠ¨æ¡
+    set guioptions-=r                                       " éšè—å³ä¾§æ»šåŠ¨æ¡
+    set guioptions-=b                                       " éšè—åº•éƒ¨æ»šåŠ¨æ¡
+    set showtabline=0                                       " éšè—Tabæ 
+    " set background=dark                                     " ä¸ºæ·±è‰²èƒŒæ™¯è°ƒæ•´é…è‰²
 
-    set langmenu=zh_cn.utf-8                                " ½â¾ögbkÊ±ÏûÏ¢ÂÒÂë
+    set langmenu=zh_cn.utf-8                                " è§£å†³gbkæ—¶æ¶ˆæ¯ä¹±ç 
     source $VIMRUNTIME/delmenu.vim
     source $VIMRUNTIME/menu.vim
     language messages zh_cn.utf-8
@@ -347,10 +351,11 @@ endif
 " }}}
 " Windwos {{{
 if GetSys() == "windows"
-    set guifont=Consolas:h11                                " ×ÖÌå
-    autocmd GUIEnter * simalt ~x                            " Æô¶¯Ê±´°¿Ú×î´ó»¯
+    set guifont=Consolas:h11                                " å­—ä½“
+    autocmd GUIEnter * simalt ~x                            " å¯åŠ¨æ—¶çª—å£æœ€å¤§åŒ–
 endif
 " }}}
 " }}}
 
 " vim600: sw=4 ts=4 fdm=marker syn=vim
+

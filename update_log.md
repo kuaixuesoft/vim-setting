@@ -2,3 +2,5 @@
 2015--test``
 
 stash
+
+fugitive

@@ -49,7 +49,7 @@ endfunction
 " vundle插件 {{{
 " git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 set nocompatible              " be iMproved
-filetype off                  " required!
+filetype on                  " required!
 
 if GetSys() == "windows"
     let g:my_vimrc = $HOME.'\vimfiles\vimrc'
@@ -89,6 +89,7 @@ Bundle 'Tabular'
 Bundle 'shawncplus/phpcomplete.vim'
 "Bundle 'taglist.vim'
 Bundle 'The-NERD-tree'  
+Bundle 'jistr/vim-nerdtree-tabs'
 Bundle 'majutsushi/tagbar'
 Bundle 'tpope/vim-fugitive'
 Bundle 'kien/ctrlp.vim'
@@ -101,11 +102,14 @@ Bundle 'scrooloose/syntastic'
 
 Bundle 'hdima/python-syntax'
 Bundle 'davidhalter/jedi-vim'
-Bundle "python_fold_compact"
+"Bundle "python_fold_compact"
 Bundle "Pydiction"
+Bundle "kevinw/pyflakes-vim"
 
 
 "jedi 
+let g:jedi#use_tabs_not_buffers = 1
+
 "syntastic 配置
 
 "增强状态栏 Lokaltog/vim-powerline
@@ -164,9 +168,9 @@ nnoremap // :TComment<CR>
 vnoremap // :TComment<CR>
 
 " PHP 函数，类注释 PDV--phpDocumentor-for-Vim
-inoremap <C-c> <ESC>:call PhpDocSingle()<CR>i 
-nnoremap <C-c> :call PhpDocSingle()<CR> 
-vnoremap <C-c> :call PhpDocRange()<CR>
+" inoremap <C-c> <ESC>:call PhpDocSingle()<CR>i 
+" nnoremap <C-c> :call PhpDocSingle()<CR> 
+" vnoremap <C-c> :call PhpDocRange()<CR>
 
 " 高亮多个单词 Mark--Karkat
 
@@ -185,10 +189,10 @@ let g:multi_cursor_quit_key='<Esc>'
 map <leader>l :Align
 
 "代码对齐 tabular
-nmap <leader>a= :Tabularize /=<CR>
-vmap <leader>a= :Tabularize /=<CR>
-nmap <leader>a: :Tabularize /:\zs<CR>
-vmap <leader>a: :Tabularize /:\zs<CR>
+nmap <Leader>a= :Tabularize /=<CR>
+vmap <Leader>a= :Tabularize /=<CR>
+nmap <Leader>a: :Tabularize /:\zs<CR>
+vmap <Leader>a: :Tabularize /:\zs<CR>
 
 "tagbar
 let g:tagbar_autofocus=1
@@ -211,6 +215,9 @@ let Tlist_Close_On_Select = 1           " 当单击tag为自动关闭
 
 " 文件浏览
 nnoremap <F3> :NERDTreeToggle<CR>                                     " F3开启/关闭NERDTree
+
+" nerdtree-tabs
+let g:nerdtree_tabs_open_on_console_startup=1
 
 " 着色
 let g:solarized_termtrans=1
@@ -235,6 +242,7 @@ autocmd! BufWritePost _vimrc exec 'source '.g:my_vimrc  " 自动加载配置文�
 set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 set termencoding=utf-8
+set noswapfile
 
 au FileType php setlocal dict+=~/.vim/dict/php_funclist.dict
 au FileType css setlocal dict+=~/.vim/dict/css.dict
@@ -278,15 +286,28 @@ set wildmode=longest,list " At command line, complete longest common string, the
 " set cursorcolumn  " Highlight the current column
 set cursorline    " Highlight the current line
 
-"set foldenable                          " 开启代码折叠
-"set foldmethod=marker                   " 折叠方式
-" set foldlevel=100                                   " Don't autofold anything (but I can still fold manually)
-" set foldopen=block,hor,mark,percent,quickfix,tag    " what movements open folds
+set foldenable                          " 开启代码折叠
+set foldmethod=marker                   " 折叠方式
+set foldlevel=100                                   " Don't autofold anything (but I can still fold manually)
+set foldopen=block,hor,mark,percent,quickfix,tag    " what movements open folds
 set viminfo='10,\"100,:20,%,n~/.viminfo                 " 恢复上次文件打开位置
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm'\"")|else|exe "norm $"|endif|endif
 
 set autochdir
 set tags=tags;
+
+"tab 操作
+map <leader>th :tabfirst<cr>
+map <leader>tl :tablast<cr>
+map <leader>tj :tabnext<cr>             
+map <leader>tk :tabprev<cr>                         
+map <leader>tn :tabnext<cr>
+map <leader>tp :tabprev<cr>
+map <leader>te :tabedit<cr>
+map <leader>td :tabclose<cr>
+map <leader>tm :tabm<cr>
+nnoremap <C-t>     :tabnew<CR>                                                                                                                                                                                
+inoremap <C-t>     <Esc>:tabnew<CR>
 
 set fo+=o " Automatically insert the current comment leader after hitting 'o' or 'O' in Normal mode.
 set fo-=r " Do not automatically insert a comment leader after an enter

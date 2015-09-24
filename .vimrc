@@ -76,8 +76,7 @@ Bundle 'PDV--phpDocumentor-for-Vim'
 Bundle "Mark--Karkat"
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'terryma/vim-multiple-cursors'
-Plugin 'mattn/emmet-vim'
-Bundle 'SuperTab'
+"Bundle 'SuperTab'
 Bundle 'matrix.vim--Yang'
 Bundle 'Townk/vim-autoclose'
 Bundle 'Align'
@@ -93,7 +92,10 @@ Bundle 'jistr/vim-nerdtree-tabs'
 Bundle 'majutsushi/tagbar'
 Bundle 'tpope/vim-fugitive'
 Bundle 'kien/ctrlp.vim'
+Bundle "scrooloose/nerdcommenter"
 
+Bundle 'Valloric/YouCompleteMe'
+Bundle "SirVer/ultisnips"
 Bundle "MarcWeber/vim-addon-mw-utils"
 Bundle "tomtom/tlib_vim"
 Bundle "garbas/vim-snipmate"
@@ -102,21 +104,70 @@ Bundle 'scrooloose/syntastic'
 
 Bundle 'hdima/python-syntax'
 Bundle 'davidhalter/jedi-vim'
-"Bundle "python_fold_compact"
-Bundle "Pydiction"
+Bundle "python_fold_compact"
+"Bundle "Pydiction" 
 Bundle "kevinw/pyflakes-vim"
+Bundle "thinca/vim-quickrun"
 
+Bundle "nono/jquery.vim"
+Bundle 'mattn/emmet-vim'
+Bundle 'jelera/vim-javascript-syntax'
+Bundle 'pangloss/vim-javascript'
+
+Bundle 'plasticboy/vim-markdown'
+
+"quick run
+let g:quickrun_no_default_key_mappings=1
+let g:quickrun_config = { 
+\   "_" : { 
+\       "outputter" : "message",
+\   },  
+\}
+let g:quickrun_no_default_key_mappings = 1 
+nmap <Leader>r <Plug>(quickrun)
+map <F10> :QuickRun<CR>
 
 "jedi 
-let g:jedi#use_tabs_not_buffers = 1
 
 "syntastic 配置
+let g:syntastic_error_symbol='>>'
+let g:syntasitc_warning_symbol='>'
+let g:syntastic_check_on_open=1
+let g:syntastic_check_on_wq=0
+let g:syntastic_enable_hightlighting=1
+
+let g:syntastic_python_checkers=['pyflakes','pep8']
+let g:syntastic_python_pep8_args='--ingnore=E501, E225, E124, E712'
+
+"YouCompleteMe
+"Ctrl+I 和Ctrl+O 后跳和前跳
+nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+let g:ycm_complete_in_comments=1 "在注释中输入也能补全
+let g:ycm_complete_in_strings=1  "在字符串中输入也能补全
+let g:ycm_use_ultisnips_completer=1 "提示ULtiSnips
+let g:ycm_seed_identifiers_from_tags_filtes=1
+
+
+" 黑名单,不启用
+let g:ycm_filetype_blacklist = {
+      \ 'tagbar' : 1,
+      \ 'gitcommit' : 1,
+      \}
+
+"UltiSnips
+let g:UltiSnipsExpandTrigger="<C-tab>"
+let g:UltiSnipsJumpForwardTrigger="<C-b>"
+let g:UltiSnipsJumpBackwardTrigger="<C-z>"
 
 "增强状态栏 Lokaltog/vim-powerline
 let g:Powerline_symbols='fancy'
 let g:Powerline_colorscheme='solarized256'
 set t_Co=256
 set laststatus=2
+
+"emmet Ctrl-y + ,
 
 "括号高亮 kien/rainbow_parentheses.vim
 let g:rbpt_colorpairs = [
@@ -231,14 +282,14 @@ colorscheme solarized
 
 "python
 let python_highlight_all=1
-let g:pydiction_location = '~/.vim/bundle/Pydiction/complete-dict'
+"let g:pydiction_location = '~/.vim/bundle/Pydiction/complete-dict'
 
 
 filetype plugin indent on     " required!
 " }}}
 
 " 基础配置 {{{
-autocmd! BufWritePost _vimrc exec 'source '.g:my_vimrc  " 自动加载配置文件
+autocmd! bufWritePost .vimrc source %  " 自动加载配置文件
 set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
 set termencoding=utf-8
@@ -283,10 +334,14 @@ set backspace=2                 " 设置回格键正常处理
 
 set wildmode=longest,list " At command line, complete longest common string, then list alternatives.
 
+"set mouse=a "打开鼠标
+"退出vim后，内容显示在终端屏幕，可以用来查看和复制
+set t_ti= t_te=
+
 " set cursorcolumn  " Highlight the current column
 set cursorline    " Highlight the current line
 
-set foldenable                          " 开启代码折叠
+set nofoldenable                          " 开启代码折叠
 set foldmethod=marker                   " 折叠方式
 set foldlevel=100                                   " Don't autofold anything (but I can still fold manually)
 set foldopen=block,hor,mark,percent,quickfix,tag    " what movements open folds
@@ -313,6 +368,19 @@ set fo+=o " Automatically insert the current comment leader after hitting 'o' or
 set fo-=r " Do not automatically insert a comment leader after an enter
 set fo-=t " Do no auto-wrap text using textwidth (does not apply to comments)
 
+" 自动补全配置
+"让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)
+set completeopt=longest,menu
+
+" 增强模式中的命令行自动完成操作
+set wildmenu
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc,*.class
+
+"离开插入模式后自动关闭预览窗口
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+"
+
 " Omnifunc 自动完成提示
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
@@ -323,14 +391,9 @@ autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
 
 " Django
-au FileType python set ft=python.django 
 au FileType html set ft=htmldjango.html
 " }}}
 
-" 快捷键映射 {{{
-
-:imap <C-S-J> <Plug>snipMateNextOrTrigger
-:smap <C-S-J> <Plug>snipMateNextOrTrigger
 
 nnoremap <C-h> <C-w>h                                       " 窗口分割时,快速切换
 nnoremap <C-j> <C-w>j
@@ -338,6 +401,7 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 nnoremap <F2> :set nonumber!<CR>:set foldcolumn=0<CR>       " F2开启/关闭行号显示
+nnoremap <F7> :set mouse=a<CR>       " F7开启鼠标
 nnoremap <silent> <leader>cl :nohlsearch<CR>                " 快速清除高度搜索
 
 " php
@@ -347,9 +411,42 @@ autocmd FileType php
 
 nmap <C-F5> :call UpdateCtags()<CR>                         " 更新ctags
 
-vmap <C-c> "+y                                              " 选中状态下Ctrl+c 复制
 
 nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
+"kj 替换 Esc
+inoremap kj <Esc>
+
+
+
+" 保存python文件时删除多余空格
+fun! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+
+
+" 定义函数AutoSetFileHead，自动插入文件头
+autocmd BufNewFile *.sh,*.py exec ":call AutoSetFileHead()"
+function! AutoSetFileHead()
+    "如果文件类型为.sh文件
+    if &filetype == 'sh'
+        call setline(1, "\#!/bin/bash")
+    endif
+
+    "如果文件类型为python
+    if &filetype == 'python'
+        call setline(1, "\#!/usr/bin/env python")
+        call append(1, "\# encoding: utf-8")
+    endif
+
+    normal G
+    normal o
+    normal o
+endfunc
+
 
 " }}}
 
